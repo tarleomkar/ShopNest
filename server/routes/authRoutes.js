@@ -6,7 +6,7 @@ import {
     getUsers,
 } from "../controllers/authController.js";
 import { admin } from "../middleware/adminMiddleware.js";
-const { protect } = require("../middleware/authMiddleware.js");
+import { protect } from "../middleware/authMiddleware.js";
 
 router.post("/register", registerUser);
 router.post("/login", loginUser);
