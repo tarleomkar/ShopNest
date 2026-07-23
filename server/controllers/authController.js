@@ -7,7 +7,7 @@ const generateToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "7d" });
 };
 
-export const registerUser = async (req, res) => {
+const registerUser = async (req, res) => {
     const { name, email, password } = req.body;
     try {
         const existingUser = await User.findOne({ email });
@@ -39,4 +39,39 @@ export const registerUser = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
+};
+
+const loginUser = async (req, res) => {
+    const { email, password} = req.body;
+    try {
+        const user = await User.findOne({ email });
+        if (user && (await bcrypt.compare(password, user.password))) {
+            res.status(200).json({
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                role: user.role,
+                roken: generateToken(user._id),
+            })
+        } else {
+            res.status(401).json({ message: "Invalid credentials!"})
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+const getUsers = async (req, res) => {
+    try {
+        const users = await User.find({}).select("-password"); // Exclude password from the response using mongoose select method
+        res.status(200).json(users);
+    } catch (error) {
+        res.status(500).json({ message: error.message})
+    }
+};
+
+module.exports = {
+    registerUser,
+    loginUser,
+    getUsers,
 };
