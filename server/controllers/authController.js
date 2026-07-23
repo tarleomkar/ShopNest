@@ -193,4 +193,8 @@ const getUsers = async (req, res) => {
     }
 };
 
+<<<<<<< HEAD
 export { registerUser, verifyOtp, resendOtp, loginUser, getUsers };
+=======
+export { registerUser, loginUser, getUsers };
+>>>>>>> 3c18276 (feat: migrate db to atlas, cloudinary setup and exports fixes)
