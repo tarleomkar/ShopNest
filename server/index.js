@@ -20,6 +20,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/auth", authRoutes);
+<<<<<<< HEAD
+=======
+app.use("/api/products", productRoutes);
+app.use("/api/orders", orderRoutes);
+// app.use("/api/payment", paymentRoutes);
+// app.use("/api/analytics", analyticsRoutes);
+>>>>>>> 631392d (feat: Order model, route creation)
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

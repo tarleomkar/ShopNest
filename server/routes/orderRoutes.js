@@ -1,7 +1,11 @@
 const express = require("express");
 const { protect } = require("../middleware/authMiddleware.js");
 const { admin } = require("../middleware/adminMiddleware.js");
+<<<<<<< HEAD
 const { } = require("../controllers/orderController.js");
+=======
+const {  } = require("../controllers/orderController.js");
+>>>>>>> 631392d (feat: Order model, route creation)
 
 const router = express.Router();
 
