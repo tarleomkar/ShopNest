@@ -9,6 +9,8 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
+        lowercase: true,
+        trim: true,
     },
     password: {
         type: String,
@@ -22,7 +24,15 @@ const userSchema = new mongoose.Schema({
     verified: {
         type: Boolean,
         default: false,
-    }
-});
+    },
+    otp: {
+        type: String,
+        select: false,
+    },
+    otpExpiresAt: {
+        type: Date,
+        default: null,
+    },
+}, { timestamps: true });
 
 export default mongoose.model("User", userSchema);
