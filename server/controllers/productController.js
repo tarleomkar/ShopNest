@@ -76,8 +76,12 @@ const updateProduct = async (req, res) => {
             res.status(404).json({ message: 'Product not found!' });
         }
     } catch (error) {
+<<<<<<< HEAD
         console.error(error);
         res.status(500).json({ message: error.message });
+=======
+        res.status(500).json({ message: 'Internal Server error!' });
+>>>>>>> eb7dadf (feat: product code for post and get with cloudinary setup)
     }
 };
 
