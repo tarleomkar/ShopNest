@@ -76,7 +76,8 @@ const updateProduct = async (req, res) => {
             res.status(404).json({ message: 'Product not found!' });
         }
     } catch (error) {
-        res.status(500).json({ message: 'Internal Server error!' });
+        console.error(error);
+        res.status(500).json({ message: error.message });
     }
 };
 
