@@ -14,6 +14,6 @@ router.post("/register", registerUser);
 router.post("/verify-otp", verifyOtp);
 router.post("/resend-otp", resendOtp);
 router.post("/login", loginUser);
-router.get("/users", protect, admin, getUsers); // Calling middleware functions here
+router.get("/users", protect, admin, getUsers);
 
 export default router;

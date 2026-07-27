@@ -174,11 +174,18 @@ const loginUser = async (req, res) => {
                 name: user.name,
                 email: user.email,
                 role: user.role,
+<<<<<<< HEAD
                 roken: generateToken(user._id),
             })
         } else {
             res.status(401).json({ message: "Invalid credentials!"})
+=======
+                token: generateToken(user._id),
+            });
+>>>>>>> d198449 (feat: OTP implementation - create, verify, resend OTP)
         }
+
+        return res.status(401).json({ message: "Invalid credentials!" });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -194,7 +201,11 @@ const getUsers = async (req, res) => {
 };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 export { registerUser, verifyOtp, resendOtp, loginUser, getUsers };
 =======
 export { registerUser, loginUser, getUsers };
 >>>>>>> 3c18276 (feat: migrate db to atlas, cloudinary setup and exports fixes)
+=======
+export { registerUser, verifyOtp, resendOtp, loginUser, getUsers };
+>>>>>>> d198449 (feat: OTP implementation - create, verify, resend OTP)
