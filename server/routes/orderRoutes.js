@@ -4,7 +4,6 @@ import { admin } from "../middleware/adminMiddleware.js";
 import {
     createOrder,
     getOrders,
-    getMyOrders,
     myOrders,
     updateOrderStatus,
 } from "../controllers/orderController.js";
@@ -15,10 +14,7 @@ router.route("/")
     .post(protect, createOrder)
     .get(protect, admin, getOrders);
 
-router.route("/myorders")
-    .get(protect, getMyOrders);
-
-router.route("/:id")
+router.route("/myOrders")
     .get(protect, myOrders);
 
 router.route("/:id/status")
