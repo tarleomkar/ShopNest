@@ -1,86 +1,32 @@
-import Order from "../model/Order.js";
+const Order = require("../model/Order.js");
+const sendEmail = require("../utils/sendMail.js");
 
+// Create new order
 const createOrder = async (req, res) => {
     try {
-        const { items, address, paymentId, totalAmount } = req.body;
-
-        if (!req.user?._id) {
-            return res.status(401).json({ message: "Not authorized" });
+        const { items, totalAmount, address, paymentId } = req.body;
+        if (!items || items.length === 0 || !totalAmount || !address ) {
+            return res.status(400).json({ message: 'Invalid order data' });
         }
-
-        if (!items?.length || !address || !paymentId || totalAmount === undefined) {
-            return res.status(400).json({ message: "Missing required order fields" });
+        else {
+            const order = new Order({
+                user: req.user._id,
+                items,
+                totalAmount,
+                address,
+                paymentId,
+            });
+            await order.save();
+            const message = `Dear ${req.user.name}, \n\nThank you for your order! Your order has been successfully created with the following details:\n\nOrder Id: ${order._id}\nTotal Amount: $${totalAmount}\nShipping Address: ${address}\n\nWe will notify you once your order is shipped.\n\nBest regards, \nShopNest Team`;
+            await sendEmail(req.user.email, message);
+            res.status(201).json({ message: 'Order created successfully', order });
         }
-
-        const order = await Order.create({
-            user: req.user._id,
-            items,
-            address,
-            paymentId,
-            totalAmount,
-            status: "pending",
-        });
-
-        res.status(201).json(order);
     } catch (error) {
+        console.error;
         res.status(500).json({ message: error.message });
     }
 };
 
-const getOrders = async (req, res) => {
-    try {
-        const orders = await Order.find({}).populate("user", "name email");
-        res.status(200).json(orders);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
-
-const getMyOrders = async (req, res) => {
-    try {
-        const orders = await Order.find({ user: req.user._id }).sort({ createdAt: -1 });
-        res.status(200).json(orders);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
-
-const getOrderById = async (req, res) => {
-    try {
-        const order = await Order.findById(req.params.id);
-        if (!order) {
-            return res.status(404).json({ message: "Order not found" });
-        }
-
-        if (req.user.role !== "admin" && order.user.toString() !== req.user._id.toString()) {
-            return res.status(403).json({ message: "Access denied" });
-        }
-
-        res.status(200).json(order);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
-
-const updateOrderStatus = async (req, res) => {
-    try {
-        const { status } = req.body;
-        const order = await Order.findById(req.params.id);
-
-        if (!order) {
-            return res.status(404).json({ message: "Order not found" });
-        }
-
-        if (!status) {
-            return res.status(400).json({ message: "Status is required" });
-        }
-
-        order.status = status;
-        await order.save();
-        res.status(200).json(order);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
-
-export { createOrder, getOrders, getMyOrders, getOrderById, updateOrderStatus };
+export {
+    createOrder,
+}
