@@ -1,25 +1,27 @@
-const express = require("express");
-const { protect } = require("../middleware/authMiddleware.js");
-const { admin } = require("../middleware/adminMiddleware.js");
-<<<<<<< HEAD
-<<<<<<< HEAD
-const { } = require("../controllers/orderController.js");
-=======
-const {  } = require("../controllers/orderController.js");
->>>>>>> 631392d (feat: Order model, route creation)
-=======
-const { } = require("../controllers/orderController.js");
->>>>>>> 6fbcd4c (spacing)
+import express from "express";
+import { protect } from "../middleware/authMiddleware.js";
+import { admin } from "../middleware/adminMiddleware.js";
+import {
+    createOrder,
+    getOrders,
+    getMyOrders,
+    getOrderById,
+    updateOrderStatus,
+} from "../controllers/orderController.js";
 
 const router = express.Router();
 
 router.route("/")
     .post(protect, createOrder)
     .get(protect, admin, getOrders);
+
 router.route("/myorders")
+    .get(protect, getMyOrders);
+
+router.route("/:id")
     .get(protect, getOrderById);
+
 router.route("/:id/status")
-    .get(protect, getOrderById)
     .put(protect, admin, updateOrderStatus);
 
 export default router;
