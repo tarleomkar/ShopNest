@@ -1,7 +1,7 @@
 const express = require("express");
 const { protect } = require("../middleware/authMiddleware.js");
 const { admin } = require("../middleware/adminMiddleware.js");
-const {  } = require("../controllers/orderController.js");
+const { } = require("../controllers/orderController.js");
 
 const router = express.Router();
 
