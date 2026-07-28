@@ -5,7 +5,7 @@ import {
     createOrder,
     getOrders,
     getMyOrders,
-    getOrderById,
+    myOrders,
     updateOrderStatus,
 } from "../controllers/orderController.js";
 
@@ -19,7 +19,7 @@ router.route("/myorders")
     .get(protect, getMyOrders);
 
 router.route("/:id")
-    .get(protect, getOrderById);
+    .get(protect, myOrders);
 
 router.route("/:id/status")
     .put(protect, admin, updateOrderStatus);
