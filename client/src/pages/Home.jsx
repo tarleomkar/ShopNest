@@ -1,12 +1,42 @@
-import React from 'react'
-import { Link } from "react-router-dom"
+import { useState, useEffect } from "react"
+import ProductCard from "../components/productCard"
+
 
 const Home = () => {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await fetch('/api/products')
+        const data = await res.json();
+        setProducts(data.slice(0, 4)); // Featured products
+      } catch (error) {
+        console.error(error)
+      } finally {
+        setLoading(false)
+      }
+    };
+    fetchProducts();
+  }, []);
+
   return (
-    <div className='home'>
-      <h1>Welcome to ShopNest</h1>
-      <p>Discover quality products, unbeatable deals, and everything you need—all at ShopNest. Happy shopping! 🛍️</p>
-      <Link to="/shop" className='btn'>Start Shopping</Link>
+    <div className="home-container">
+      <div className="hero-banner">
+        <h1>Welcome to ShopNest</h1>
+        <p>Discover the best products at unbeatable prices.</p>
+      </div>
+      <h2>Featured Products</h2>
+      {loading ? (
+        <div>Loading ...</div>
+      ) : (
+        <div className="product-grid">
+          {products.map((product) => (
+            <ProductCard key={product._id} product={product} />
+          ))}
+        </div>
+      )}
     </div>
   )
 }
