@@ -2,6 +2,7 @@
  import '../styles/Login.css'
 import AuthContext from '../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
+import '../styles/auth.css';
 
  const Login = () => {
     const [email, setEmail] = useState('');

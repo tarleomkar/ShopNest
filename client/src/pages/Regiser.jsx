@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react'
 import '../styles/Regiser.css'
 import AuthContext from '../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
+import '../styles/auth.css';
 
 const Regiser = () => {
     const [name, setName] = useState('');
