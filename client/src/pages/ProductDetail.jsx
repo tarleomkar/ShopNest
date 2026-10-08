@@ -5,7 +5,7 @@ import { addToCart } from '../redux/cartSclice';
 import { resolveProductImageUrl } from '../utils/product-image';
 import '../styles/productCard.css';
 
-const ProductDetails = () => {
+const ProductDetail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -127,4 +127,4 @@ const ProductDetails = () => {
   );
 };
 
-export default ProductDetails;
+export default ProductDetail;

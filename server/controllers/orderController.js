@@ -5,22 +5,33 @@ import sendEmail from "../utils/sendMail.js";
 const createOrder = async (req, res) => {
     try {
         const { items, totalAmount, address, paymentId } = req.body;
-        if (!items || items.length === 0 || !totalAmount || !address ) {
+        if (!items || items.length === 0 || !totalAmount || !address || !paymentId) {
             return res.status(400).json({ message: 'Invalid order data' });
         }
-        else {
-            const order = new Order({
-                user: req.user._id,
-                items,
-                totalAmount,
-                address,
-                paymentId,
-            });
-            await order.save();
-            const message = `Dear ${req.user.name}, \n\nThank you for your order! Your order has been successfully created with the following details:\n\nOrder Id: ${order._id}\nTotal Amount: $${totalAmount}\nShipping Address: ${address}\n\nWe will notify you once your order is shipped.\n\nBest regards, \nShopNest Team`;
-            await sendEmail(req.user.email, "Order created successfully", message);
-            res.status(201).json({ message: 'Order created successfully', order });
+
+        const normalizedItems = items.map((item) => ({
+            productId: item.productId,
+            qty: item.qty,
+            price: item.price,
+        }));
+
+        const order = new Order({
+            user: req.user._id,
+            items: normalizedItems,
+            totalAmount,
+            address,
+            paymentId,
+        });
+        await order.save();
+
+        try {
+            const message = `Dear ${req.user.name},\n\nThank you for your order!\n\nOrder Id: ${order._id}\nTotal Amount: ₹${totalAmount}\n\nBest regards,\nShopNest Team`;
+            await sendEmail(req.user.email, 'Order created successfully', message);
+        } catch (emailError) {
+            console.error('Order email failed:', emailError);
         }
+
+        res.status(201).json({ message: 'Order created successfully', order });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: error.message });

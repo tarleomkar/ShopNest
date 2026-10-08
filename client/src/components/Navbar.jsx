@@ -6,7 +6,7 @@ import AuthContext from "../context/AuthContext";
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
-  const cartItms = useSelector((state) => state.cart.cartItems);
+  const cartItms = useSelector((state) => state.cart.cartItems) ?? [];
   const navigate = useNavigate();
 
   const handleLogOut = () => {
@@ -31,7 +31,7 @@ const Navbar = () => {
           <Link to='/shop'>Shop</Link>
         </li>
         <li>
-          <Link to='/cart'>Cart ({cartItms.length})</Link>
+          <Link to='/cart'>Cart {cartItms.length > 0 && `(${cartItms.length})`}</Link>
         </li>
         {user ? (
           <>

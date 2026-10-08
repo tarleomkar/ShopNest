@@ -32,6 +32,8 @@ const seed = async () => {
         name: "Demo User",
         email: "user@shopnest.com",
         password: userPassword,
+        role: "user",
+        verified: true,
       },
     ]);
 

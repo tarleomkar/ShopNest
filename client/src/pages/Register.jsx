@@ -4,7 +4,7 @@ import AuthContext from '../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/auth.css';
 
-const Regiser = () => {
+const Register = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -66,4 +66,4 @@ const Regiser = () => {
   )
 }
 
-export default Regiser
+export default Register

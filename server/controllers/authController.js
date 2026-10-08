@@ -166,7 +166,14 @@ const loginUser = async (req, res) => {
         const user = await User.findOne({ email: normalizedEmail });
         if (user && (await bcrypt.compare(password, user.password))) {
             if (!user.verified) {
-                return res.status(403).json({ message: "Please verify your email before logging in." });
+                if (user.role === "admin") {
+                    user.verified = true;
+                    await user.save();
+                } else {
+                    return res.status(403).json({
+                        message: "Please verify your email before logging in.",
+                    });
+                }
             }
 
             return res.status(200).json({
